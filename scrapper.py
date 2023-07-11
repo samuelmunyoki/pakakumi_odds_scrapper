@@ -34,6 +34,7 @@ async def launch_webpage():
 async def main(runs):
     try:
         while runs > 0:
+            print(f'{runs-1} Remaining...')
             browser = await launch_webpage()
             await asyncio.sleep(45)
             await browser.close()
