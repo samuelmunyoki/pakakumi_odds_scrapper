@@ -25,6 +25,7 @@ async def launch_webpage():
             set1 = set(NEW_ARRY)
             set2 = set(OLD_ARRAY)
             new_odds = list(set1.difference(set2))
+            print(f'New odds {new_odds}')
             for odd in new_odds:
                 csv_writer.writerow(odd)
     except:
