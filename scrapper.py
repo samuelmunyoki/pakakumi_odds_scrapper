@@ -16,7 +16,7 @@ async def launch_webpage():
     await page.waitForSelector(SELECTOR)
     tr_elements = await page.querySelectorAll(SELECTOR)
     
-    with open('output\pakakumi_odds.csv', 'a', newline='') as csvfile:
+    with open('output/pakakumi_odds.csv', 'a', newline='') as csvfile:
         csv_writer = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         OLD_ARRAY.extend(NEW_ARRY)
         NEW_ARRY.clear()
