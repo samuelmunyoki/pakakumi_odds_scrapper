@@ -9,18 +9,14 @@ OLD_ARRAY = []
 NEW_ARRY = []
 
 async def launch_webpage():
-    # browser = await launch(headless=True, executablePath='/usr/bin/chromium-browser', args=['--no-sandbox'])
-    browser = await launch()
+    browser = await launch(headless=True, executablePath='/usr/bin/chromium-browser', args=['--no-sandbox'])
     page = await browser.newPage()
+    await stealth(page)
+    await page.goto('https://play.pakakumi.com/')
+    await page.waitForSelector(SELECTOR)
+    tr_elements = await page.querySelectorAll(SELECTOR)
     try:
-        await page.goto('https://play.pakakumi.cokm/')
-    except :
-        print(f"Page navigation failed: ")
-    try:     
-        await page.waitForSelector(SELECTOR, { 'timeout': 5000 })
-        tr_elements = await page.querySelectorAll(SELECTOR)
-        
-        with open('output/pakakumi_odds.csv', 'a', newline='') as csvfile:
+        with open('output\pakakumi_odds.csv', 'a', newline='') as csvfile:
             csv_writer = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             OLD_ARRAY.extend(NEW_ARRY)
             NEW_ARRY.clear()
@@ -30,26 +26,21 @@ async def launch_webpage():
             set1 = set(NEW_ARRY)
             set2 = set(OLD_ARRAY)
             new_odds = list(set1.difference(set2))
-            print("Writing to CSV ...")
             for odd in new_odds:
                 csv_writer.writerow(odd)
-            print("Done")
     except:
-        print("Error occoured. Moving to next.")
-    
+        pass
     return browser
 async def main(runs):
-    
-    while runs > 0:
-        print(f'{runs-1} Remaining...')
-        try:
+    try:
+        while runs > 0:
+            print(f'{runs-1} Remaining...')
             browser = await launch_webpage()
             await asyncio.sleep(45)
             await browser.close()
-        except:
-            print("Error.")
-        runs = runs-1
-    
+            runs = runs-1
+    except:
+        pass
 nest_asyncio.apply()
 new_loop = asyncio.new_event_loop()
 asyncio.get_event_loop_policy().set_event_loop(new_loop)
