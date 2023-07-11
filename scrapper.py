@@ -9,12 +9,8 @@ OLD_ARRAY = []
 NEW_ARRY = []
 
 async def launch_webpage():
-    # browser = await launch(headless=True)
-    # browser = await launch(headless=True, executablePath='/usr/bin/chromium-browser')
     browser = await launch(headless=True, executablePath='/usr/bin/chromium-browser', args=['--no-sandbox'])
     page = await browser.newPage()
-    #await stealth(page)
-    #await page.goto('https://play.pakakumi.com/')
     try:
         await page.goto('https://play.pakakumi.com/')
     except pyppeteer.errors.PageError as e:
@@ -45,7 +41,6 @@ async def main(runs):
         await asyncio.sleep(45)
         await browser.close()
         runs = runs-1
-
 nest_asyncio.apply()
 new_loop = asyncio.new_event_loop()
 asyncio.get_event_loop_policy().set_event_loop(new_loop)
