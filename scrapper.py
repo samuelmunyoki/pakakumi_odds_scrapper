@@ -9,10 +9,15 @@ OLD_ARRAY = []
 NEW_ARRY = []
 
 async def launch_webpage():
-    browser = await launch(headless=True)
+    #browser = await launch(headless=True)
+    browser = await launch(headless=True, executablePath='/usr/bin/chromium-browser')
     page = await browser.newPage()
     await stealth(page)
-    await page.goto('https://play.pakakumi.com/')
+    #await page.goto('https://play.pakakumi.com/')
+    try:
+        await page.goto('https://play.pakakumi.com/')
+    except pyppeteer.errors.PageError as e:
+        print(f"Page navigation failed: {e}")
     await page.waitForSelector(SELECTOR)
     tr_elements = await page.querySelectorAll(SELECTOR)
     
