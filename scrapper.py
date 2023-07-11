@@ -11,11 +11,10 @@ NEW_ARRY = []
 async def launch_webpage():
     browser = await launch(headless=True, executablePath='/usr/bin/chromium-browser', args=['--no-sandbox'])
     page = await browser.newPage()
-    await stealth(page)
-    await page.goto('https://play.pakakumi.com/')
-    await page.waitForSelector(SELECTOR)
-    tr_elements = await page.querySelectorAll(SELECTOR)
     try:
+        await page.goto('https://play.pakakumi.com/')
+        await page.waitForSelector(SELECTOR)
+        tr_elements = await page.querySelectorAll(SELECTOR)
         with open('output\pakakumi_odds.csv', 'a', newline='') as csvfile:
             csv_writer = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
             OLD_ARRAY.extend(NEW_ARRY)
@@ -31,6 +30,7 @@ async def launch_webpage():
     except:
         pass
     return browser
+
 async def main(runs):
     try:
         while runs > 0:
