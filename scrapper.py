@@ -2,17 +2,17 @@ import csv
 import asyncio
 import nest_asyncio
 from pyppeteer import launch
-from pyppeteer_stealth import stealth
+#from pyppeteer_stealth import stealth
 
 SELECTOR = '#root > div.css-ynz9y9 > div:nth-child(2) > div > div.css-1633bsf > div > div.css-1pcha61 > div > div.css-1633bsf > div > table > tbody>tr'
 OLD_ARRAY = []
 NEW_ARRY = []
 
 async def launch_webpage():
-    #browser = await launch(headless=True)
-    browser = await launch(headless=True, executablePath='/usr/bin/chromium-browser')
+    browser = await launch(headless=True)
+    # browser = await launch(headless=True, executablePath='/usr/bin/chromium-browser')
     page = await browser.newPage()
-    await stealth(page)
+    #await stealth(page)
     #await page.goto('https://play.pakakumi.com/')
     try:
         await page.goto('https://play.pakakumi.com/')
