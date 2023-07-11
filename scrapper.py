@@ -15,32 +15,31 @@ async def launch_webpage():
     await page.goto('https://play.pakakumi.com/')
     await page.waitForSelector(SELECTOR)
     tr_elements = await page.querySelectorAll(SELECTOR)
-    try:
-        with open('output\pakakumi_odds.csv', 'a', newline='') as csvfile:
-            csv_writer = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-            OLD_ARRAY.extend(NEW_ARRY)
-            NEW_ARRY.clear()
-            for tr_element in tr_elements:
-                text_content = await page.evaluate('(trElement) => trElement.textContent', tr_element)
-                NEW_ARRY.append(text_content.replace('x___',''))
-            set1 = set(NEW_ARRY)
-            set2 = set(OLD_ARRAY)
-            new_odds = list(set1.difference(set2))
-            for odd in new_odds:
-                csv_writer.writerow(odd)
-    except:
-        pass
+    
+    with open('output\pakakumi_odds.csv', 'a', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        OLD_ARRAY.extend(NEW_ARRY)
+        NEW_ARRY.clear()
+        for tr_element in tr_elements:
+            text_content = await page.evaluate('(trElement) => trElement.textContent', tr_element)
+            NEW_ARRY.append(text_content.replace('x___',''))
+        set1 = set(NEW_ARRY)
+        set2 = set(OLD_ARRAY)
+        new_odds = list(set1.difference(set2))
+        print("Writing to CSV ...")
+        for odd in new_odds:
+            csv_writer.writerow(odd)
+        print("Done")
+    
     return browser
 async def main(runs):
-    try:
-        while runs > 0:
-            print(f'{runs-1} Remaining...')
-            browser = await launch_webpage()
-            await asyncio.sleep(45)
-            await browser.close()
-            runs = runs-1
-    except:
-        pass
+    while runs > 0:
+        print(f'{runs-1} Remaining...')
+        browser = await launch_webpage()
+        await asyncio.sleep(45)
+        await browser.close()
+        runs = runs-1
+
 nest_asyncio.apply()
 new_loop = asyncio.new_event_loop()
 asyncio.get_event_loop_policy().set_event_loop(new_loop)
