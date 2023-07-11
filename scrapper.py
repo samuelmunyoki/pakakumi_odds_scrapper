@@ -9,8 +9,9 @@ OLD_ARRAY = []
 NEW_ARRY = []
 
 async def launch_webpage():
-    browser = await launch(headless=True)
+    # browser = await launch(headless=True)
     # browser = await launch(headless=True, executablePath='/usr/bin/chromium-browser')
+    browser = await launch(headless=True, executablePath='/usr/bin/chromium-browser', args=['--no-sandbox'])
     page = await browser.newPage()
     #await stealth(page)
     #await page.goto('https://play.pakakumi.com/')
