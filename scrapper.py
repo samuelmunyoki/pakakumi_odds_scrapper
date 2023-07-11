@@ -32,15 +32,17 @@ async def launch_webpage():
     return browser
 
 async def main(runs):
-    try:
-        while runs > 0:
-            print(f'{runs-1} Remaining...')
+    
+    while runs > 0:
+        print(f'{runs-1} Remaining...')
+        try:
             browser = await launch_webpage()
             await asyncio.sleep(45)
             await browser.close()
-            runs = runs-1
-    except:
-        pass
+        except:
+            pass
+        runs = runs-1
+    
 nest_asyncio.apply()
 new_loop = asyncio.new_event_loop()
 asyncio.get_event_loop_policy().set_event_loop(new_loop)
